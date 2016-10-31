@@ -8,20 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		1F2B0B911DC7D7C100749718 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0B901DC7D7C100749718 /* AppDelegate.swift */; };
-		1F2B0B931DC7D7C100749718 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0B921DC7D7C100749718 /* ViewController.swift */; };
 		1F2B0B961DC7D7C100749718 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B0B941DC7D7C100749718 /* Main.storyboard */; };
 		1F2B0B981DC7D7C100749718 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B0B971DC7D7C100749718 /* Assets.xcassets */; };
 		1F2B0B9B1DC7D7C100749718 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B0B991DC7D7C100749718 /* LaunchScreen.storyboard */; };
+		1F2B0BA51DC7DAC300749718 /* PostListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BA41DC7DAC300749718 /* PostListTableViewController.swift */; };
+		1F2B0BA81DC7DB5000749718 /* PostDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BA71DC7DB5000749718 /* PostDetailTableViewController.swift */; };
+		1F2B0BAA1DC7DBB100749718 /* AddPostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BA91DC7DBB100749718 /* AddPostTableViewController.swift */; };
+		1F2B0BAC1DC7DC0700749718 /* SearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BAB1DC7DC0700749718 /* SearchResultsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1F2B0B8D1DC7D7C100749718 /* TimelineCloudKitOnlyAsMentor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimelineCloudKitOnlyAsMentor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F2B0B901DC7D7C100749718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1F2B0B921DC7D7C100749718 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1F2B0B951DC7D7C100749718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F2B0B971DC7D7C100749718 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F2B0B9A1DC7D7C100749718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F2B0B9C1DC7D7C100749718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F2B0BA41DC7DAC300749718 /* PostListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListTableViewController.swift; sourceTree = "<group>"; };
+		1F2B0BA71DC7DB5000749718 /* PostDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewController.swift; sourceTree = "<group>"; };
+		1F2B0BA91DC7DBB100749718 /* AddPostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPostTableViewController.swift; sourceTree = "<group>"; };
+		1F2B0BAB1DC7DC0700749718 /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +61,40 @@
 			isa = PBXGroup;
 			children = (
 				1F2B0B901DC7D7C100749718 /* AppDelegate.swift */,
-				1F2B0B921DC7D7C100749718 /* ViewController.swift */,
-				1F2B0B941DC7D7C100749718 /* Main.storyboard */,
-				1F2B0B971DC7D7C100749718 /* Assets.xcassets */,
-				1F2B0B991DC7D7C100749718 /* LaunchScreen.storyboard */,
-				1F2B0B9C1DC7D7C100749718 /* Info.plist */,
+				1F2B0BA61DC7DAC800749718 /* ViewController */,
+				1F2B0BA31DC7DA7A00749718 /* Resources */,
 			);
 			path = TimelineCloudKitOnlyAsMentor;
+			sourceTree = "<group>";
+		};
+		1F2B0BA21DC7DA7200749718 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				1F2B0B991DC7D7C100749718 /* LaunchScreen.storyboard */,
+				1F2B0B941DC7D7C100749718 /* Main.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		1F2B0BA31DC7DA7A00749718 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F2B0B971DC7D7C100749718 /* Assets.xcassets */,
+				1F2B0B9C1DC7D7C100749718 /* Info.plist */,
+				1F2B0BA21DC7DA7200749718 /* Storyboards */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1F2B0BA61DC7DAC800749718 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1F2B0BA91DC7DBB100749718 /* AddPostTableViewController.swift */,
+				1F2B0BA71DC7DB5000749718 /* PostDetailTableViewController.swift */,
+				1F2B0BA41DC7DAC300749718 /* PostListTableViewController.swift */,
+				1F2B0BAB1DC7DC0700749718 /* SearchResultsTableViewController.swift */,
+			);
+			name = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +170,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F2B0B931DC7D7C100749718 /* ViewController.swift in Sources */,
 				1F2B0B911DC7D7C100749718 /* AppDelegate.swift in Sources */,
+				1F2B0BA51DC7DAC300749718 /* PostListTableViewController.swift in Sources */,
+				1F2B0BAC1DC7DC0700749718 /* SearchResultsTableViewController.swift in Sources */,
+				1F2B0BAA1DC7DBB100749718 /* AddPostTableViewController.swift in Sources */,
+				1F2B0BA81DC7DB5000749718 /* PostDetailTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
