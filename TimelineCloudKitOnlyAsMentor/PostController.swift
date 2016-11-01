@@ -30,13 +30,15 @@ class PostController {
     // MARK: - Methods
     //==================================================
     
-    func addComment(toPost post: Post, commentText text: String) {
+    func addComment(toPost post: Post, commentText text: String, completion: @escaping (() -> Void) = { _ in }) {
         
         let comment = Comment(post: post, text: text)
         post.comments.append(comment)
+        
+        completion()
     }
     
-    func createPost(withImage image: UIImage, andCaption caption: String) {
+    func createPost(withImage image: UIImage, andCaption caption: String, completion: @escaping (() -> Void) = { _ in }) {
         
         guard let imageData = UIImagePNGRepresentation(image) else {
             
@@ -46,6 +48,34 @@ class PostController {
         
         let post = Post(photoData: imageData)
         posts.append(post)
-        let comment = addComment(toPost: post, commentText: caption)
+        let comment = addComment(toPost: post, commentText: caption) { _ in
+        
+            completion()
+        }
+        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

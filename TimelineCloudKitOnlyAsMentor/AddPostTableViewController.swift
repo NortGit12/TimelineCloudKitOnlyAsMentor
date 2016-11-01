@@ -9,6 +9,18 @@
 import UIKit
 
 class AddPostTableViewController: UITableViewController {
+    
+    //==================================================
+    // MARK: - Properties
+    //==================================================
+    
+    @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var selectImageButton: UIButton!
+    @IBOutlet weak var captionTextField: UITextField!
+    
+    //==================================================
+    // MARK: - General
+    //==================================================
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,23 +31,15 @@ class AddPostTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
+    //==================================================
     // MARK: - Table view data source
+    //==================================================
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
+//        return 0
+//    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,21 +72,6 @@ class AddPostTableViewController: UITableViewController {
     */
 
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -91,5 +80,66 @@ class AddPostTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    //==================================================
+    // MARK: - Actions
+    //==================================================
+    
+    @IBAction func addPostButtonTapped(_ sender: UIButton) {
+        
+        guard let image = postImageView.image
+            , let caption = captionTextField.text
+            , caption.characters.count > 0 else {
+                
+                let missingRequiredInfoAlertController = UIAlertController(title: "Missing Info", message: "The image and caption are required for a post.  Make sure they are both present and try again.", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                
+                missingRequiredInfoAlertController.addAction(okAction)
+                
+                present(missingRequiredInfoAlertController, animated: true, completion: nil)
+                
+                return
+        }
+        
+        PostController.shared.createPost(withImage: image, andCaption: caption) { _ in 
+            
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func selectImageButtonTapped(_ sender: UIButton) {
+        
+        let image = UIImage(named: "post")
+        postImageView.image = image
+        selectImageButton.setTitle("", for: .normal)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

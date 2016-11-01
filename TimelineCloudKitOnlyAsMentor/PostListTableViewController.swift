@@ -9,43 +9,51 @@
 import UIKit
 
 class PostListTableViewController: UITableViewController {
+    
+    //==================================================
+    // MARK: - Properties
+    //==================================================
+    
+    
+    
+    
+    //==================================================
+    // MARK: - General
+    //==================================================
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
     }
-
+    
+    //==================================================
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+    //==================================================
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return PostController.shared.posts.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? PostTableViewCell else {
+            
+            NSLog("Error casting the cell as a PostTableViewCell")
+            return UITableViewCell()
+        }
 
-        // Configure the cell...
+        let post = PostController.shared.posts[indexPath.row]
+        
+        cell.post = post
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -82,14 +90,50 @@ class PostListTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        // How are we getting there?
+        
+        if segue.identifier == "postCellToDetailSegue" {
+            
+            // Where are we going?
+            if let postDetailTableViewController = segue.destination as? PostDetailTableViewController
+                , let selectedIndexPath = tableView.indexPathForSelectedRow {
+                
+                
+                // What do we need to pack
+                
+                let post = PostController.shared.posts[selectedIndexPath.row]
+                postDetailTableViewController.post = post
+            }
+        }
     }
-    */
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

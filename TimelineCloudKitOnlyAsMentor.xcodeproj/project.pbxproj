@@ -18,6 +18,8 @@
 		1F2B0BAE1DC7DC8E00749718 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BAD1DC7DC8E00749718 /* Post.swift */; };
 		1F2B0BB11DC7DCDA00749718 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BB01DC7DCDA00749718 /* Comment.swift */; };
 		1F2B0BB31DC7DE2300749718 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0BB21DC7DE2300749718 /* PostController.swift */; };
+		1F3DD0D41DC8E7C200FF741F /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DD0D31DC8E7C200FF741F /* PostTableViewCell.swift */; };
+		1F3DD1051DC9362B00FF741F /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3DD1041DC9362B00FF741F /* DateHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		1F2B0BAD1DC7DC8E00749718 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		1F2B0BB01DC7DCDA00749718 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		1F2B0BB21DC7DE2300749718 /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		1F3DD0D31DC8E7C200FF741F /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		1F3DD1041DC9362B00FF741F /* DateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +71,10 @@
 			isa = PBXGroup;
 			children = (
 				1F2B0B901DC7D7C100749718 /* AppDelegate.swift */,
+				1F3DD1041DC9362B00FF741F /* DateHelper.swift */,
 				1F2B0BAF1DC7DC9300749718 /* Model */,
 				1F2B0BB41DC7DE2800749718 /* ModelController */,
+				1F3DD0D21DC8E34300FF741F /* Views */,
 				1F2B0BA61DC7DAC800749718 /* ViewController */,
 				1F2B0BA31DC7DA7A00749718 /* Resources */,
 			);
@@ -120,6 +126,14 @@
 				1F2B0BB21DC7DE2300749718 /* PostController.swift */,
 			);
 			name = ModelController;
+			sourceTree = "<group>";
+		};
+		1F3DD0D21DC8E34300FF741F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1F3DD0D31DC8E7C200FF741F /* PostTableViewCell.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,7 +214,9 @@
 				1F2B0BA51DC7DAC300749718 /* PostListTableViewController.swift in Sources */,
 				1F2B0BAC1DC7DC0700749718 /* SearchResultsTableViewController.swift in Sources */,
 				1F2B0BB11DC7DCDA00749718 /* Comment.swift in Sources */,
+				1F3DD1051DC9362B00FF741F /* DateHelper.swift in Sources */,
 				1F2B0BAE1DC7DC8E00749718 /* Post.swift in Sources */,
+				1F3DD0D41DC8E7C200FF741F /* PostTableViewCell.swift in Sources */,
 				1F2B0BAA1DC7DBB100749718 /* AddPostTableViewController.swift in Sources */,
 				1F2B0BA81DC7DB5000749718 /* PostDetailTableViewController.swift in Sources */,
 			);
