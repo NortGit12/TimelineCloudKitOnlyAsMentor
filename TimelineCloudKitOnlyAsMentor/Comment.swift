@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct Comment {
+class Comment {
     
     //==================================================
     // MARK: - Properties
     //==================================================
     
-    var post: Post
+    var post: Post?
     var text: String
     var timestamp: Date
     
@@ -22,9 +22,9 @@ struct Comment {
     // MARK: - Initializer
     //==================================================
     
-    init(post: Post, text: String, timestamp: Date = Date()) {
+    init(post: Post?, text: String, timestamp: Date = Date()) {
         
-        self.post = Post
+        self.post = post
         self.text = text
         self.timestamp = timestamp
     }

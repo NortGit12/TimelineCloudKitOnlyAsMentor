@@ -8,29 +8,31 @@
 
 import UIKit
 
-struct Post {
+class Post {
     
     //==================================================
     // MARK: - Properties
     //==================================================
     
     var comments: [Comment]
-    var photoData: Data
+    var photoData: Data?
     var timestamp: Date
     
-    var photo: UIImage {
+    var photo: UIImage? {
         
-        return UIImage(data: self.photoData)!
+        guard let photoData = self.photoData else { return nil }
+        
+        return UIImage(data: photoData)
     }
     
     //==================================================
     // MARK: - Initializers
     //==================================================
     
-    init(photoData: Data, timestamp: Date = Date(), comments: [Comment] = [Comment]()) {
+    init(comments: [Comment] = [], photoData: Data?, timestamp: Date = Date()) {
         
+        self.comments = comments
         self.photoData = photoData
         self.timestamp = timestamp
-        self.comments = comments
     }
 }
