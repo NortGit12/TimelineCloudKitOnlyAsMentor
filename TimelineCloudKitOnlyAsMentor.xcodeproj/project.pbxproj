@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F2B09F41DCA7DC400EAB1D9 /* SearchableRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B09F31DCA7DC400EAB1D9 /* SearchableRecord.swift */; };
+		1F2B09F71DCA986800EAB1D9 /* PhotoSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B09F61DCA986800EAB1D9 /* PhotoSelectViewController.swift */; };
 		1F2B0B911DC7D7C100749718 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0B901DC7D7C100749718 /* AppDelegate.swift */; };
 		1F2B0B961DC7D7C100749718 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B0B941DC7D7C100749718 /* Main.storyboard */; };
 		1F2B0B981DC7D7C100749718 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F2B0B971DC7D7C100749718 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		1F2B09F31DCA7DC400EAB1D9 /* SearchableRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableRecord.swift; sourceTree = "<group>"; };
+		1F2B09F61DCA986800EAB1D9 /* PhotoSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSelectViewController.swift; sourceTree = "<group>"; };
 		1F2B0B8D1DC7D7C100749718 /* TimelineCloudKitOnlyAsMentor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimelineCloudKitOnlyAsMentor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F2B0B901DC7D7C100749718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F2B0B951DC7D7C100749718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				1F2B0BA91DC7DBB100749718 /* AddPostTableViewController.swift */,
+				1F2B09F61DCA986800EAB1D9 /* PhotoSelectViewController.swift */,
 				1F2B0BA71DC7DB5000749718 /* PostDetailTableViewController.swift */,
 				1F2B0BA41DC7DAC300749718 /* PostListTableViewController.swift */,
 				1F2B0BAB1DC7DC0700749718 /* SearchResultsTableViewController.swift */,
@@ -231,6 +234,7 @@
 				1F2B0BAA1DC7DBB100749718 /* AddPostTableViewController.swift in Sources */,
 				1F2B0BA81DC7DB5000749718 /* PostDetailTableViewController.swift in Sources */,
 				1F2B09F41DCA7DC400EAB1D9 /* SearchableRecord.swift in Sources */,
+				1F2B09F71DCA986800EAB1D9 /* PhotoSelectViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
