@@ -36,3 +36,37 @@ class Post {
         self.timestamp = timestamp
     }
 }
+
+// SearchableRecord support
+
+extension Post: SearchableRecord {
+    
+    func matches(searchTerm: String) -> Bool {
+        
+        let results = self.comments.map({ $0.matches(searchTerm: searchTerm) })
+        
+        return results.count > 0 ? true : false
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

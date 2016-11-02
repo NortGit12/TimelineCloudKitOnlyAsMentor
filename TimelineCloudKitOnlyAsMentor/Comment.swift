@@ -29,3 +29,13 @@ class Comment {
         self.timestamp = timestamp
     }
 }
+
+// SearchableRecord support
+
+extension Comment: SearchableRecord {
+    
+    func matches(searchTerm: String) -> Bool {
+        
+        return text.contains(searchTerm)
+    }
+}

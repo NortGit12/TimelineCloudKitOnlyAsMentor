@@ -44,6 +44,8 @@ class PostDetailTableViewController: UITableViewController {
 
         guard let post = post else { return UITableViewCell() }
         let comment = post.comments[indexPath.row]
+        
+        postImageView.image = post.photo
         cell.textLabel?.text = comment.text
         cell.detailTextLabel?.text = dateFormatter.string(from: comment.timestamp)
 

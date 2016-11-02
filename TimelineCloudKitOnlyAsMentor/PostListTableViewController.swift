@@ -8,14 +8,13 @@
 
 import UIKit
 
-class PostListTableViewController: UITableViewController {
+class PostListTableViewController: UITableViewController, UISearchResultsUpdating {
     
     //==================================================
     // MARK: - Properties
     //==================================================
     
-    
-    
+    var searchController: UISearchController?
     
     //==================================================
     // MARK: - General
@@ -24,6 +23,7 @@ class PostListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupSearchController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,7 +90,9 @@ class PostListTableViewController: UITableViewController {
     }
     */
 
+    //==================================================
     // MARK: - Navigation
+    //==================================================
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -100,15 +102,64 @@ class PostListTableViewController: UITableViewController {
         if segue.identifier == "postCellToDetailSegue" {
             
             // Where are we going?
-            if let postDetailTableViewController = segue.destination as? PostDetailTableViewController
-                , let selectedIndexPath = tableView.indexPathForSelectedRow {
+            if let postDetailTableViewController = segue.destination as? PostDetailTableViewController {
                 
-                
-                // What do we need to pack
-                
-                let post = PostController.shared.posts[selectedIndexPath.row]
-                postDetailTableViewController.post = post
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    
+                    // We came from the PostListTableViewController
+                    
+                    // What do we need to pack
+                    
+                    let post = PostController.shared.posts[selectedIndexPath.row]
+                    postDetailTableViewController.post = post
+                    
+                } else {
+                    
+                    // We came from the SearchResultsController
+                    
+                    guard let cell = sender as? PostTableViewCell else {
+                     
+                        NSLog("Error casting cell coming from SearchResultsController")
+                        return
+                    }
+                    
+                    let post = cell.post
+                    postDetailTableViewController.post = post
+                }
             }
+        }
+    }
+    
+    //==================================================
+    // MARK: - SearchController
+    //==================================================
+    
+    func setupSearchController() {
+        
+        let searchResultsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "searchResultsTableViewController")
+        
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController?.searchResultsUpdater = self
+        searchController?.searchBar.sizeToFit()
+        searchController?.hidesNavigationBarDuringPresentation = true
+        tableView.tableHeaderView = searchController?.searchBar
+        
+        definesPresentationContext = true
+        
+        
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        if let resultsTableViewController = searchController.searchResultsController as? SearchResultsTableViewController
+            , let searchTerm = searchController.searchBar.text?.lowercased()
+            , searchTerm.characters.count > 0 {
+            
+            resultsTableViewController.sourceController = self
+            
+            let matchingPosts = PostController.shared.posts.filter({ $0.matches(searchTerm: searchTerm) })
+            resultsTableViewController.resultsArray = matchingPosts
+            resultsTableViewController.tableView.reloadData()
         }
     }
 }
