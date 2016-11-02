@@ -124,7 +124,16 @@ class PostDetailTableViewController: UITableViewController {
     
     @IBAction func shareButtonTapped(_ sender: UIBarButtonItem) {
         
+        guard let photo = post?.photo, let commentText = post?.comments.first?.text
+            else {
+                
+                NSLog("Error accessing the post's photo and first comment.")
+                return
+        }
         
+        let activityViewController = UIActivityViewController(activityItems: [photo, commentText], applicationActivities: nil)
+        
+        present(activityViewController, animated: true, completion: nil)
     }
     
     @IBAction func followUnFollowButtonTapped(_ sender: UIBarButtonItem) {
