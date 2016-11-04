@@ -7,16 +7,21 @@
 //
 
 import UIKit
+import CloudKit
 
-class Post {
+class Post: CloudKitSyncable {
     
     //==================================================
     // MARK: - Properties
     //==================================================
     
+    static let photoDataKey = "photoData"
+    static let recordTypeKey = "recordType"
+    static let timestampKey = "timestamp"
+    static let typeKey = "Post"
+    
+    var cloudKitRecordID: CKRecordID?
     var comments: [Comment]
-    var photoData: Data?
-    var timestamp: Date
     
     var photo: UIImage? {
         
@@ -24,6 +29,23 @@ class Post {
         
         return UIImage(data: photoData)
     }
+    
+    var photoData: Data?
+    var recordType: String { return "Post" }
+    var timestamp: Date
+        
+    fileprivate var temporaryPhotoURL: URL {
+        
+        let temporaryDirectory = NSTemporaryDirectory()
+        let temporaryDirectoryURL = URL(fileURLWithPath: temporaryDirectory)
+        let fileURL = temporaryDirectoryURL.appendingPathComponent(UUID().uuidString).appendingPathExtension("jpg")
+        
+        try? self.photoData?.write(to: fileURL, options: [.atomic])
+        
+        return fileURL
+    }
+    
+    let timestampKey = "timestamp"
     
     //==================================================
     // MARK: - Initializers
@@ -34,6 +56,24 @@ class Post {
         self.comments = comments
         self.photoData = photoData
         self.timestamp = timestamp
+    }
+    
+    convenience required init?(record: CKRecord) {
+        
+        guard let photoAsset = record[Post.photoDataKey] as? CKAsset 
+        , let timestamp = record.creationDate
+            else {
+                
+                NSLog("Error unwrapping values from the Post's CloudKit record.")
+                return nil
+        }
+        
+        let photoData = try? Data(contentsOf: photoAsset.fileURL)
+        
+        self.init(photoData: photoData, timestamp: timestamp)
+        
+        self.cloudKitRecordID = record.recordID
+//        self.comments = []
     }
 }
 
@@ -49,6 +89,20 @@ extension Post: SearchableRecord {
     }
 }
 
+// CloudKit support
+
+extension CKRecord {
+    
+    convenience init(_ post: Post) {
+        
+        let recordID = CKRecordID(recordName: UUID().uuidString)
+        
+        self.init(recordType: post.recordType, recordID: recordID)
+        
+        self[Post.photoDataKey] = CKAsset(fileURL: post.temporaryPhotoURL)
+        self[Post.timestampKey] = post.timestamp as CKRecordValue?
+    }
+}
 
 
 

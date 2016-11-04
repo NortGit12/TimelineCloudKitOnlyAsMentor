@@ -51,10 +51,6 @@ extension CloudKitSyncable {
         
         return cloudKitRecordID != nil
     }
-    
-    //==================================================
-    // MARK: - Methods
-    //==================================================
 }
 
 
