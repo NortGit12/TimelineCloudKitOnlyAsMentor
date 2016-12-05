@@ -286,6 +286,38 @@ class PostController {
         }
     }
     
+    func checkSubscriptionTo(commentsForPost post: Post, completion: @escaping ((_ subscribed: Bool) -> Void) = { (_) in }) {
+        
+        guard let subscriptionID = post.cloudKitRecordID else {
+            
+            completion(false)
+            return
+        }
+        
+        cloudKitManager.fetchSubscription(subscriptionID) { (subscription, error) in
+            
+            let subscribed = subscription != nil && error == nil
+            completion(subscribed)
+        }
+    }
+    
+    func removeSubscriptionTo(commentsForPost post: Post, completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { (_,_) in}) {
+        
+        guard let subscriptionID = post.cloudKitRecordID?.recordName else {
+
+            
+            // TODO: Is success really supposed to be true for this case?
+            completion(true, nil)
+            return
+        }
+        
+        cloudKitManager.unsubscribe(subscriptionID) { (subscriptionID, error) in
+            
+            let success = subscriptionID != nil && error != nil
+            completion(success, error)
+        }
+    }
+    
     func subscribeToNewPosts(completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { _ in }) {
         
         let predicate = NSPredicate(value: true)
@@ -294,6 +326,32 @@ class PostController {
             
             let success = subscription != nil
             completion(success, error)
+        }
+    }
+    
+    func toggleSubscriptionTo(commentsForPost post: Post, completion: @escaping ((_ success: Bool, _ isSubscribed: Bool, _ error: Error?) -> Void) = { (_,_,_) in }) {
+        
+        guard let subscriptionID = post.cloudKitRecordID?.recordName else {
+            completion(false, false, nil)
+            return
+        }
+        
+        cloudKitManager.fetchSubscription(subscriptionID) { (subscription, error) in
+            
+            if subscription != nil {
+                
+                self.removeSubscriptionTo(commentsForPost: post) { (success, error) in
+                    
+                    completion(success, false, error)
+                }
+                
+            } else {
+                
+                self.addSubscriptionTo(commentsForPost: post, alertBody: "Someone commented on a post you are following.") { (<#Bool#>, <#Error?#>) in
+                    
+                    completion(success, true, error)
+                }
+            }
         }
     }
 }
