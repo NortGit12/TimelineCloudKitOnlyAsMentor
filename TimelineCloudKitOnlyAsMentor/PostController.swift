@@ -16,9 +16,26 @@ class PostController {
     //==================================================
     
     let cloudKitManager: CloudKitManager
-    var comments: [Comment] = posts.flatMap({ $0.comments })
-    var posts = [Post]()
+    var comments: [Comment] {
+        
+        return posts.flatMap({ $0.comments })
+    }
+    var isSyncing: Bool = false
+    var posts = [Post]() {
+        didSet {
+            
+            DispatchQueue.main.async {
+                
+                let notificationCenter = NotificationCenter.default
+                notificationCenter.post(name: PostController.PostsChangedNotification, object: self)
+            }
+        }
+    }
     static let shared = PostController()
+    var sortedPosts: [Post] {
+        
+        return posts.sorted { return $0.timestamp.compare($1.timestamp as Date) == .orderedAscending }
+    }
     
     //==================================================
     // MARK: - Initializer
@@ -27,6 +44,8 @@ class PostController {
     init() {
         
         self.cloudKitManager = CloudKitManager()
+        
+        performFullSync()
     }
     
     //==================================================
@@ -40,21 +59,24 @@ class PostController {
         let comment = Comment(post: post, text: text)
         post.comments.append(comment)
         
-        cloudKitManager.saveRecord(CKRecord(comment), completion: { (record, error) in
+        cloudKitManager.saveRecord(CKRecord(comment)) { (record, error) in
             
-            guard let record = record else {
+            if let error = error {
                 
-                if let error = error {
-                    
-                    NSLog("Error saving new comment to CloudKit: \(error.localizedDescription)")
-                    return
-                }
+                NSLog("Error saving new comment to CloudKit: \(error.localizedDescription)")
+                return
             }
             
-            comment.cloudKitRecordID = record.recordID
+            comment.cloudKitRecordID = record?.recordID
             
             completion(comment)
-        })
+        }
+        
+        DispatchQueue.main.async {
+            
+            let notificationCenter = NotificationCenter.default
+            notificationCenter.post(name: PostController.PostCommentsChangedNotification, object: self)
+        }
         
         return comment
     }
@@ -159,6 +181,30 @@ class PostController {
         }
     }
     
+    func performFullSync(completion: @escaping () -> Void? = { _ in }) {
+        
+        guard !isSyncing else {
+            
+            completion()
+            return
+        }
+        
+        isSyncing = true
+        
+        pushChangesToCloudKit { (success, error) in
+            
+            self.fetchNewRecords(type: Post.typeKey, completion: { 
+                
+                self.fetchNewRecords(type: Comment.typeKey, completion: {
+                    
+                    self.isSyncing = false
+                    
+                    completion()
+                })
+            }) 
+        }
+    }
+    
     func pushChangesToCloudKit(completion: @escaping ((_ success: Bool, _ error: NSError?) -> Void) = { _, _ in }) {
         
         let unsavedPosts = unsyncedRecords(type: Post.typeKey) as? [Post] ?? []
@@ -187,7 +233,7 @@ class PostController {
         }) { (records, error) in
             
             let success = records != nil
-            completion(success, error)
+            completion(success, error as NSError?)
         }
     }
     
@@ -213,6 +259,12 @@ class PostController {
         
         return recordsOf(type: type).filter { !$0.isSynced }
     }
+}
+
+extension PostController {
+    
+    static let PostsChangedNotification = Notification.Name("PostsChangedNotification")
+    static let PostCommentsChangedNotification = Notification.Name("PostCommentsChangedNotification")
 }
 
 
