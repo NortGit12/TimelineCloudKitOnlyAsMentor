@@ -167,7 +167,12 @@ class PostDetailTableViewController: UITableViewController {
     
     @IBAction func followUnFollowButtonTapped(_ sender: UIBarButtonItem) {
         
+        guard let post = post else { return }
         
+        PostController.shared.toggleSubscriptionTo(commentsForPost: post) { (_,_,_) in
+            
+            self.updateViews()
+        }
     }
 }
 
