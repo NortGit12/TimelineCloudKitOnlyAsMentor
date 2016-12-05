@@ -15,9 +15,14 @@ class PostDetailTableViewController: UITableViewController {
     //==================================================
     
     @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var followUnfollowButton: UIButton!
     
     let dateFormatter = DateHelper().dateFormatter
-    var post: Post?
+    var post: Post? {
+        didSet {
+            updateViews()
+        }
+    }
     
     //==================================================
     // MARK: - General
@@ -28,6 +33,40 @@ class PostDetailTableViewController: UITableViewController {
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50.0
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(postCommentsChanged(_:)), name: PostController.PostCommentsChangedNotification, object: nil)
+    }
+    
+    //==================================================
+    // MARK: - Methods
+    //==================================================
+    
+    func postCommentsChanged(_ notification: Notification) {
+        
+        guard let notificationPost = notification.object as? Post
+            , let post = post
+            , notificationPost  === post else { return } // Not our post
+        
+        updateViews()
+    }
+    
+    func updateViews() {
+        
+        guard let post = self.post
+            , isViewLoaded else { return }
+        
+        postImageView.image = post.photo
+        
+        tableView.reloadData()
+        
+        PostController.shared.checkSubscriptionTo(commentsForPost: post) { (subscribed) in
+            
+            DispatchQueue.main.async {
+                
+                self.followUnfollowButton.setTitle(subscribed ? "Unfollow Post" : "Follow Post", for: .normal)
+            }
+        }
     }
 
     //==================================================
@@ -61,16 +100,6 @@ class PostDetailTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    //==================================================
-    // MARK: - Methods
-    //==================================================
-
-    func updateWith(post: Post) {
-        
-        postImageView.image = post.photo
-        tableView.reloadData()
-    }
     
     //==================================================
     // MARK: - Actions
