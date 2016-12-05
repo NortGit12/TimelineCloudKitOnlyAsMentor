@@ -24,12 +24,56 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
         super.viewDidLoad()
 
         setupSearchController()
+        
+        requestFullSync()
+        
+        // Hides the search bar
+        if tableView.numberOfRows(inSection: 0) > 0 {
+            
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0) , at: .top, animated: false)
+        }
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(postsChanged(_:)), name: PostController.PostsChangedNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
+    }
+    
+    //==================================================
+    // MARK: - Methods
+    //==================================================
+    
+    @IBAction func refreshControlActivated() {
+        
+        requestFullSync {
+            
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    func postsChanged(_ notification: Notification) {
+        
+        tableView.reloadData()
+    }
+    
+    //==================================================
+    // MARK: - PostController support
+    //==================================================
+    
+    func requestFullSync(completion: (() -> Void)? = nil) {
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        PostController.shared.performFullSync {
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+            completion?()
+        }
     }
     
     //==================================================
