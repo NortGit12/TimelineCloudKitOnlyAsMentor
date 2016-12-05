@@ -266,6 +266,26 @@ class PostController {
         return recordsOf(type: type).filter { !$0.isSynced }
     }
     
+    //==================================================
+    // MARK: - Subscription support
+    //==================================================
+    
+    func addSubscriptionTo(commentsForPost post: Post, alertBody: String?, completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { (_, _) in }) {
+        
+        guard let recordID = post.cloudKitRecordID else {
+            
+            fatalError("Unable to create a post\'s CloudKit reference for subscription.")
+        }
+        
+        let predicate = NSPredicate(format: "post == %@", argumentArray: [recordID])
+        
+        cloudKitManager.subscribe(Comment.typeKey, predicate: predicate, subscriptionID: recordID.recordName, contentAvailable: true, alertBody: alertBody, desiredKeys: [Comment.textKey, Comment.postReferenceKey], options: .firesOnRecordCreation) { (subscription, error) in
+            
+            let success = subscription != nil
+            completion(success, error)
+        }
+    }
+    
     func subscribeToNewPosts(completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { _ in }) {
         
         let predicate = NSPredicate(value: true)
