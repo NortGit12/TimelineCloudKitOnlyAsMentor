@@ -18,7 +18,7 @@ class PostController {
     let cloudKitManager: CloudKitManager
     var comments: [Comment] {
         
-        return posts.flatMap({ $0.comments })
+        return posts.flatMap { $0.comments }
     }
     var isSyncing: Bool = false
     var posts = [Post]() {
@@ -81,7 +81,7 @@ class PostController {
         return comment
     }
     
-    func createPost(withImage image: UIImage, andCaption caption: String, completion: @escaping ((Post) -> Void) = { _ in }) {
+    func createPost(withImage image: UIImage, andCaption caption: String, completion: ((Post) -> Void)?) {
         
         guard let imageData = UIImagePNGRepresentation(image) else {
             
@@ -105,7 +105,7 @@ class PostController {
                     return
                 }
                 
-                completion(post)
+                completion?(post)
                 return
             }
             
@@ -118,18 +118,15 @@ class PostController {
             
             self.cloudKitManager.saveRecord(commentRecord, completion: { (record, error) in
                 
-                guard let record = record else {
+                if let error = error {
                     
-                    if let error = error {
-                        
-                        NSLog("Error saving new comment to CloudKit: \(error.localizedDescription)")
-                        return
-                    }
+                    NSLog("Error saving new comment to CloudKit: \(error.localizedDescription)")
+                    return
                 }
                 
-                comment.cloudKitRecordID = record.recordID
+                comment.cloudKitRecordID = record?.recordID
                 
-                completion(post)
+                completion?(post)
             })
         })
         
@@ -181,7 +178,7 @@ class PostController {
         }
     }
     
-    func performFullSync(completion: @escaping () -> Void? = { _ in }) {
+    func performFullSync(completion: @escaping (() -> Void) = { _ in }) {
         
         guard !isSyncing else {
             
@@ -193,15 +190,16 @@ class PostController {
         
         pushChangesToCloudKit { (success, error) in
             
-            self.fetchNewRecords(type: Post.typeKey, completion: { 
+            self.fetchNewRecords(type: Post.typeKey) { 
                 
-                self.fetchNewRecords(type: Comment.typeKey, completion: {
+                self.fetchNewRecords(type: Comment.typeKey) {
                     
                     self.isSyncing = false
                     
                     completion()
-                })
-            }) 
+                    return
+                }
+            }
         }
     }
     
