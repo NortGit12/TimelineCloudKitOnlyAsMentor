@@ -41,6 +41,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>UIBackgroundModes</key>
+        <array>
+            <string>remote-notification</string>
+        </array>
 	<key>NSCameraUsageDescription</key>
 	<string>The app would like access to the camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
