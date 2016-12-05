@@ -159,6 +159,38 @@ class PostController {
         }
     }
     
+    func pushChangesToCloudKit(completion: @escaping ((_ success: Bool, _ error: NSError?) -> Void) = { _, _ in }) {
+        
+        let unsavedPosts = unsyncedRecords(type: Post.typeKey) as? [Post] ?? []
+        let unsavedComments = unsyncedRecords(type: Comment.typeKey) as? [Comment] ?? []
+        var unsavedObjectsByRecord = [CKRecord : CloudKitSyncable]()
+        
+        for post in unsavedPosts {
+            
+            let record = CKRecord(post)
+            unsavedObjectsByRecord[record] = post
+        }
+        
+        for comment in unsavedComments {
+            
+            let record = CKRecord(comment)
+            unsavedObjectsByRecord[record] = comment
+        }
+        
+        let unsavedRecords = Array(unsavedObjectsByRecord.keys)
+        
+        cloudKitManager.saveRecords(unsavedRecords, perRecordCompletion: { (record, error) in
+            
+            guard let record = record else { return }
+            unsavedObjectsByRecord[record]?.cloudKitRecordID = record.recordID
+            
+        }) { (records, error) in
+            
+            let success = records != nil
+            completion(success, error)
+        }
+    }
+    
     private func recordsOf(type: String) -> [CloudKitSyncable] {
     
         switch type {
