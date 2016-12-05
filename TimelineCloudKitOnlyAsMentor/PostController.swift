@@ -46,6 +46,14 @@ class PostController {
         self.cloudKitManager = CloudKitManager()
         
         performFullSync()
+        
+        subscribeToNewPosts { (success, error) in
+            
+            if success {
+                
+                NSLog("Successfully subscribed to all new posts.")
+            }
+        }
     }
     
     //==================================================
@@ -203,7 +211,7 @@ class PostController {
         }
     }
     
-    func pushChangesToCloudKit(completion: @escaping ((_ success: Bool, _ error: NSError?) -> Void) = { _, _ in }) {
+    func pushChangesToCloudKit(completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { _, _ in }) {
         
         let unsavedPosts = unsyncedRecords(type: Post.typeKey) as? [Post] ?? []
         let unsavedComments = unsyncedRecords(type: Comment.typeKey) as? [Comment] ?? []
@@ -231,7 +239,7 @@ class PostController {
         }) { (records, error) in
             
             let success = records != nil
-            completion(success, error as NSError?)
+            completion(success, error)
         }
     }
     
@@ -256,6 +264,17 @@ class PostController {
     func unsyncedRecords(type: String) -> [CloudKitSyncable] {
         
         return recordsOf(type: type).filter { !$0.isSynced }
+    }
+    
+    func subscribeToNewPosts(completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { _ in }) {
+        
+        let predicate = NSPredicate(value: true)
+        
+        cloudKitManager.subscribe(Post.typeKey, predicate: predicate, subscriptionID: "allPosts", contentAvailable: true, options: .firesOnRecordCreation) { (subscription, error) in
+            
+            let success = subscription != nil
+            completion(success, error)
+        }
     }
 }
 
