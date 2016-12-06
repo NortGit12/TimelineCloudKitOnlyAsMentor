@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CloudKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,8 +17,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let userNotificationCenter = UNUserNotificationCenter.current()
+        userNotificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
+            
+            if let error = error {
+                
+                NSLog("Error requesting authorization for notifications: \(error)")
+                return
+            }
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        PostController.shared.performFullSync()
+        
+        completionHandler(UIBackgroundFetchResult.newData)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
