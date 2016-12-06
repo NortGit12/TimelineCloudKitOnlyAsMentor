@@ -45,8 +45,6 @@ class PostController {
         
         self.cloudKitManager = CloudKitManager()
         
-        performFullSync()
-        
         subscribeToNewPosts { (success, error) in
             
             if success {
@@ -270,7 +268,7 @@ class PostController {
     // MARK: - ActivityIndicator support
     //==================================================
     
-    func startOverlayedActivityIndicatorView(_ activityIndicatorView: UIActivityIndicatorView, onView view: UIView) {
+    func startOverlayedActivityIndicatorView(_ activityIndicatorView: UIActivityIndicatorView, onView view: UIView, withCompletion completion: @escaping (() -> Void) = { _ in }) {
         
         let activityOverlay = UIView(frame: view.frame)
         activityOverlay.backgroundColor = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 0.7)
@@ -283,6 +281,8 @@ class PostController {
         view.addSubview(activityOverlay)
         
         activityIndicatorView.startAnimating()
+        
+        completion()
     }
     
     func stopOverlayedActivityIndicatorView(_ activityIndicatorView: UIActivityIndicatorView) {

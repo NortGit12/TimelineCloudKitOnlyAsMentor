@@ -28,14 +28,10 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HZL-OS-xmC">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="300" id="z5l-ni-qkq"/>
-                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="HZL-OS-xmC" secondAttribute="bottom" id="AhA-q6-JT6"/>
-                                        <constraint firstItem="HZL-OS-xmC" firstAttribute="centerY" secondItem="Ugr-cR-pal" secondAttribute="centerY" id="dXr-5o-yzI"/>
                                         <constraint firstItem="HZL-OS-xmC" firstAttribute="top" secondItem="Ugr-cR-pal" secondAttribute="top" id="lYj-qY-gnj"/>
                                         <constraint firstItem="HZL-OS-xmC" firstAttribute="leading" secondItem="Ugr-cR-pal" secondAttribute="leading" id="q9s-sw-mvL"/>
                                         <constraint firstAttribute="trailing" secondItem="HZL-OS-xmC" secondAttribute="trailing" id="yp0-H3-a7N"/>

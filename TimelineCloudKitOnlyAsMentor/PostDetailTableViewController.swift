@@ -72,31 +72,6 @@ class PostDetailTableViewController: UITableViewController {
             }
         }
     }
-    
-//    func showActivityIndicatorView(_ activityIndicator: UIActivityIndicatorView, forView view: UIView) {
-//        
-//        activityOverlay = UIView(frame: self.view.frame)
-//        activityOverlay.backgroundColor = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 0.7)
-//        
-//        activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-//        activityIndicatorView.hidesWhenStopped = true
-//        activityIndicatorView.frame = activityOverlay.bounds
-//        activityIndicatorView.center = activityOverlay.center
-//        activityOverlay.addSubview(activityIndicatorView)
-//        view.addSubview(activityOverlay)
-//        
-//        activityIndicatorView.startAnimating()
-//    }
-//    
-//    func stopActivityIndicatorView(_ activityIndicator: UIActivityIndicatorView) {
-//        
-//        DispatchQueue.main.async {
-//            
-//            self.activityIndicatorView.stopAnimating()
-//            self.activityIndicatorView.removeFromSuperview()
-//            self.activityOverlay.removeFromSuperview()
-//        }
-//    }
 
     //==================================================
     // MARK: - Table view data source
@@ -119,16 +94,6 @@ class PostDetailTableViewController: UITableViewController {
 
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     //==================================================
     // MARK: - Actions
