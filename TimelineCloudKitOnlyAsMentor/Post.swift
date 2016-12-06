@@ -83,9 +83,9 @@ extension Post: SearchableRecord {
     
     func matches(searchTerm: String) -> Bool {
         
-        let results = self.comments.map({ $0.matches(searchTerm: searchTerm) })
+        let matchingComments = comments.filter { $0.matches(searchTerm: searchTerm) }
         
-        return results.count > 0 ? true : false
+        return !matchingComments.isEmpty
     }
 }
 

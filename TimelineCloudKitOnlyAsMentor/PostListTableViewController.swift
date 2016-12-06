@@ -199,23 +199,22 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
         tableView.tableHeaderView = searchController?.searchBar
         
         definesPresentationContext = true
-        
-        
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         
         if let resultsTableViewController = searchController.searchResultsController as? SearchResultsTableViewController
-            , let searchTerm = searchController.searchBar.text?.lowercased()
+            , let searchTerm = searchController.searchBar.text
             , searchTerm.characters.count > 0 {
             
-            resultsTableViewController.sourceController = self
-            
-            let matchingPosts = PostController.shared.posts.filter({ $0.matches(searchTerm: searchTerm) })
-            resultsTableViewController.resultsArray = matchingPosts
+            let posts = PostController.shared.posts
+            let filteredPosts = posts.filter { $0.matches(searchTerm: searchTerm) }.map { $0 as SearchableRecord }
+            resultsTableViewController.resultsArray = filteredPosts  //matchingPosts
             resultsTableViewController.tableView.reloadData()
         }
     }
+    
+    
 }
 
 
