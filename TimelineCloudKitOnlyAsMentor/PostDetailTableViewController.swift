@@ -5,6 +5,7 @@
 //  Created by Jeff Norton on 10/31/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
+
 import UIKit
 
 class PostDetailTableViewController: UITableViewController {
@@ -13,7 +14,7 @@ class PostDetailTableViewController: UITableViewController {
     // MARK: - Properties
     //==================================================
     
-    //    var activityIndicatorView = UIActivityIndicatorView()
+//    var activityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var followUnfollowBarButtonItem: UIBarButtonItem!
     
@@ -28,6 +29,7 @@ class PostDetailTableViewController: UITableViewController {
     //==================================================
     // MARK: - General
     //==================================================
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,25 +72,26 @@ class PostDetailTableViewController: UITableViewController {
             }
         }
     }
-    
+
     //==================================================
     // MARK: - Table view data source
     //==================================================
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+
         return post?.comments.count ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "commentsCell", for: indexPath)
-        
+
         guard let post = post else { return UITableViewCell() }
         let comment = post.comments[indexPath.row]
         
         postImageView.image = post.photo
         cell.textLabel?.text = comment.text
         cell.detailTextLabel?.text = dateFormatter.string(from: comment.timestamp)
-        
+
         return cell
     }
     
@@ -175,3 +178,31 @@ class PostDetailTableViewController: UITableViewController {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

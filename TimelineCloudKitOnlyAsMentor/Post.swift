@@ -5,6 +5,7 @@
 //  Created by Jeff Norton on 10/31/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
+
 import UIKit
 import CloudKit
 
@@ -32,7 +33,7 @@ class Post: CloudKitSyncable {
     var photoData: Data?
     var recordType: String { return "Post" }
     var timestamp: Date
-    
+        
     fileprivate var temporaryPhotoURL: URL {
         
         let temporaryDirectory = NSTemporaryDirectory()
@@ -60,7 +61,7 @@ class Post: CloudKitSyncable {
     convenience required init?(record: CKRecord) {
         
         guard let photoAsset = record[Post.photoDataKey] as? CKAsset 
-            , let timestamp = record.creationDate
+        , let timestamp = record.creationDate
             else {
                 
                 NSLog("Error unwrapping values from the Post's CloudKit record.")
@@ -72,30 +73,24 @@ class Post: CloudKitSyncable {
         self.init(photoData: photoData, timestamp: timestamp)
         
         self.cloudKitRecordID = record.recordID
-        //        self.comments = []
+//        self.comments = []
     }
 }
 
 // SearchableRecord support
+
 extension Post: SearchableRecord {
     
     func matches(searchTerm: String) -> Bool {
         
-        for comment in comments {
-            
-            let commentMatchesSearchTerm = comment.matches(searchTerm: searchTerm)
-            
-            if commentMatchesSearchTerm {
-                
-                return true
-            }
-        }
+        let matchingComments = comments.filter { $0.matches(searchTerm: searchTerm) }
         
-        return false
+        return !matchingComments.isEmpty
     }
 }
 
 // CloudKit support
+
 extension CKRecord {
     
     convenience init(_ post: Post) {
@@ -109,10 +104,8 @@ extension CKRecord {
     }
 }
 
-func ==(lhs: Post, rhs: Post) -> Bool {
-    
-    return (lhs.cloudKitRecordID == rhs.cloudKitRecordID) && (lhs.timestamp == rhs.timestamp)
-}
+
+
 
 
 

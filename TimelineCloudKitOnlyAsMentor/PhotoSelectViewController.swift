@@ -5,6 +5,7 @@
 //  Created by Jeff Norton on 11/2/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
+
 import UIKit
 
 protocol PhotoSelectViewControllerDelegate: class {
@@ -25,9 +26,10 @@ class PhotoSelectViewController: UIViewController, UIImagePickerControllerDelega
     //==================================================
     // MARK: - General
     //==================================================
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view.
     }
     
