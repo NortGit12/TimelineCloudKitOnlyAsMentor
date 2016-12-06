@@ -24,6 +24,12 @@ class AddPostTableViewController: UITableViewController, PhotoSelectViewControll
     
     @IBAction func addPostButtonTapped(_ sender: UIButton) {
         
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicatorView.hidesWhenStopped = true
+//        activityIndicatorView.frame = self.view.bounds
+        activityIndicatorView.center = self.view.center
+        activityIndicatorView.startAnimating()
+        
         guard let image = self.image
             , let caption = captionTextField.text
             , caption.characters.count > 0 else {
@@ -40,6 +46,8 @@ class AddPostTableViewController: UITableViewController, PhotoSelectViewControll
         }
         
         PostController.shared.createPost(withImage: image, andCaption: caption) { _ in 
+            
+            activityIndicatorView.stopAnimating()
             
             self.dismiss(animated: true, completion: nil)
         }

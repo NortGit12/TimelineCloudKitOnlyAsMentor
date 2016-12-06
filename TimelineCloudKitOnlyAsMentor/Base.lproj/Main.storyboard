@@ -192,6 +192,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Post Detail" id="t0k-8D-0UA"/>
                     <connections>
+                        <outlet property="followUnfollowBarButtonItem" destination="4rF-Q7-7NS" id="t7V-sN-B2g"/>
                         <outlet property="postImageView" destination="sLT-x1-o0H" id="qSf-gN-7OB"/>
                     </connections>
                 </tableViewController>

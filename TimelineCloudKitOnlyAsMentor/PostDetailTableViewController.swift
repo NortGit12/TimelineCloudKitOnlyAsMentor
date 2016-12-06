@@ -14,10 +14,12 @@ class PostDetailTableViewController: UITableViewController {
     // MARK: - Properties
     //==================================================
     
+//    var activityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var postImageView: UIImageView!
-    @IBOutlet weak var followUnfollowButton: UIButton!
+    @IBOutlet weak var followUnfollowBarButtonItem: UIBarButtonItem!
     
     let dateFormatter = DateHelper().dateFormatter
+    var activityOverlay = UIView()
     var post: Post? {
         didSet {
             updateViews()
@@ -30,12 +32,14 @@ class PostDetailTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50.0
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(postCommentsChanged(_:)), name: PostController.PostCommentsChangedNotification, object: nil)
+        
+        updateViews()
     }
     
     //==================================================
@@ -64,10 +68,35 @@ class PostDetailTableViewController: UITableViewController {
             
             DispatchQueue.main.async {
                 
-                self.followUnfollowButton.setTitle(subscribed ? "Unfollow Post" : "Follow Post", for: .normal)
+                self.followUnfollowBarButtonItem.title = subscribed ? "Unfollow Post" : "Follow Post"
             }
         }
     }
+    
+//    func showActivityIndicatorView(_ activityIndicator: UIActivityIndicatorView, forView view: UIView) {
+//        
+//        activityOverlay = UIView(frame: self.view.frame)
+//        activityOverlay.backgroundColor = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 0.7)
+//        
+//        activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+//        activityIndicatorView.hidesWhenStopped = true
+//        activityIndicatorView.frame = activityOverlay.bounds
+//        activityIndicatorView.center = activityOverlay.center
+//        activityOverlay.addSubview(activityIndicatorView)
+//        view.addSubview(activityOverlay)
+//        
+//        activityIndicatorView.startAnimating()
+//    }
+//    
+//    func stopActivityIndicatorView(_ activityIndicator: UIActivityIndicatorView) {
+//        
+//        DispatchQueue.main.async {
+//            
+//            self.activityIndicatorView.stopAnimating()
+//            self.activityIndicatorView.removeFromSuperview()
+//            self.activityOverlay.removeFromSuperview()
+//        }
+//    }
 
     //==================================================
     // MARK: - Table view data source
@@ -169,9 +198,18 @@ class PostDetailTableViewController: UITableViewController {
         
         guard let post = post else { return }
         
+        let activityIndicatorView = UIActivityIndicatorView()
+        
+        PostController.shared.startOverlayedActivityIndicatorView(activityIndicatorView, onView: self.view)
+        
         PostController.shared.toggleSubscriptionTo(commentsForPost: post) { (_,_,_) in
             
-            self.updateViews()
+            DispatchQueue.main.async {
+                
+                PostController.shared.stopOverlayedActivityIndicatorView(activityIndicatorView)
+                
+                self.updateViews()
+            }
         }
     }
 }

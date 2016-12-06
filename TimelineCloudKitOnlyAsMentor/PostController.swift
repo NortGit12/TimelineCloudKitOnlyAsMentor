@@ -267,6 +267,40 @@ class PostController {
     }
     
     //==================================================
+    // MARK: - ActivityIndicator support
+    //==================================================
+    
+    func startOverlayedActivityIndicatorView(_ activityIndicatorView: UIActivityIndicatorView, onView view: UIView) {
+        
+        let activityOverlay = UIView(frame: view.frame)
+        activityOverlay.backgroundColor = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 0.7)
+        
+        activityIndicatorView.activityIndicatorViewStyle = .whiteLarge
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.frame = activityOverlay.bounds
+        activityIndicatorView.center = activityOverlay.center
+        activityOverlay.addSubview(activityIndicatorView)
+        view.addSubview(activityOverlay)
+        
+        activityIndicatorView.startAnimating()
+    }
+    
+    func stopOverlayedActivityIndicatorView(_ activityIndicatorView: UIActivityIndicatorView) {
+        
+        DispatchQueue.main.async {
+            
+            activityIndicatorView.stopAnimating()
+            
+            if let parentView = activityIndicatorView.superview {
+                
+                activityIndicatorView.removeFromSuperview()
+                parentView.removeFromSuperview()
+                parentView.removeFromSuperview()
+            }
+        }
+    }
+    
+    //==================================================
     // MARK: - Subscription support
     //==================================================
     
@@ -277,7 +311,7 @@ class PostController {
             fatalError("Unable to create a post\'s CloudKit reference for subscription.")
         }
         
-        let predicate = NSPredicate(format: "post == %@", argumentArray: [recordID])
+        let predicate = NSPredicate(format: "postReference == %@", argumentArray: [recordID])
         
         cloudKitManager.subscribe(Comment.typeKey, predicate: predicate, subscriptionID: recordID.recordName, contentAvailable: true, alertBody: alertBody, desiredKeys: [Comment.textKey, Comment.postReferenceKey], options: .firesOnRecordCreation) { (subscription, error) in
             
@@ -286,9 +320,9 @@ class PostController {
         }
     }
     
-    func checkSubscriptionTo(commentsForPost post: Post, completion: @escaping ((_ subscribed: Bool) -> Void) = { (_) in }) {
+    func checkSubscriptionTo(commentsForPost post: Post, completion: @escaping ((_ subscribed: Bool) -> Void) = { _ in }) {
         
-        guard let subscriptionID = post.cloudKitRecordID else {
+        guard let subscriptionID = post.cloudKitRecordID?.recordName else {
             
             completion(false)
             return
@@ -296,7 +330,7 @@ class PostController {
         
         cloudKitManager.fetchSubscription(subscriptionID) { (subscription, error) in
             
-            let subscribed = subscription != nil && error == nil
+            let subscribed = subscription != nil
             completion(subscribed)
         }
     }
@@ -347,7 +381,7 @@ class PostController {
                 
             } else {
                 
-                self.addSubscriptionTo(commentsForPost: post, alertBody: "Someone commented on a post you are following.") { (<#Bool#>, <#Error?#>) in
+                self.addSubscriptionTo(commentsForPost: post, alertBody: "Someone commented on a post you are following.") { (success, error) in
                     
                     completion(success, true, error)
                 }

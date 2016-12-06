@@ -14,6 +14,7 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
     // MARK: - Properties
     //==================================================
     
+    var loadingOverlay = UIView()
     var searchController: UISearchController?
     
     //==================================================
@@ -25,8 +26,6 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
 
         setupSearchController()
         
-        requestFullSync()
-        
         // Hides the search bar
         if tableView.numberOfRows(inSection: 0) > 0 {
             
@@ -35,6 +34,8 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(postsChanged(_:)), name: PostController.PostsChangedNotification, object: nil)
+        
+        requestFullSync()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,13 +67,22 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
     
     func requestFullSync(completion: (() -> Void)? = nil) {
         
+        let activityIndicatorView = UIActivityIndicatorView()
+        
+        PostController.shared.startOverlayedActivityIndicatorView(activityIndicatorView, onView: self.view)
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         PostController.shared.performFullSync {
             
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            
-            completion?()
+            DispatchQueue.main.async {
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                PostController.shared.stopOverlayedActivityIndicatorView(activityIndicatorView)
+                
+                completion?()
+            }
         }
     }
     
