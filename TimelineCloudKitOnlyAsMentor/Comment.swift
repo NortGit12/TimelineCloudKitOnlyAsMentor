@@ -5,7 +5,6 @@
 //  Created by Jeff Norton on 10/31/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
-
 import Foundation
 import CloudKit
 
@@ -41,10 +40,10 @@ class Comment: CloudKitSyncable {
         
         guard let text = record[Comment.textKey] as? String
             , let timestamp = record.creationDate
-        else {
-            
-            NSLog("Error unwrapping values from the Comment's CloudKit record.")
-            return nil
+            else {
+                
+                NSLog("Error unwrapping values from the Comment's CloudKit record.")
+                return nil
         }
         
         self.init(post: nil, text: text, timestamp: timestamp)
@@ -54,17 +53,22 @@ class Comment: CloudKitSyncable {
 }
 
 // SearchableRecord support
-
 extension Comment: SearchableRecord {
     
     func matches(searchTerm: String) -> Bool {
         
-        return text.lowercased().contains(searchTerm.lowercased())
+        let result = text.lowercased().contains(searchTerm.lowercased())
+        
+        print("\nmatches resutls:")
+        print("\tsearchTerm.lowercased() = \(searchTerm.lowercased())")
+        print("\ttext.lowercased() = \(text.lowercased())")
+        print("\tresult = \(result)")
+        
+        return result
     }
 }
 
 // CloudKit support
-
 extension CKRecord {
     
     convenience init(_ comment: Comment) {
@@ -81,7 +85,6 @@ extension CKRecord {
         self[Comment.timestampKey] = comment.timestamp as CKRecordValue?
     }
 }
-
 
 
 

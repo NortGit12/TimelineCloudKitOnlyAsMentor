@@ -5,7 +5,6 @@
 //  Created by Jeff Norton on 11/1/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
-
 import UIKit
 
 class PostTableViewCell: UITableViewCell {

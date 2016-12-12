@@ -5,7 +5,6 @@
 //  Created by Jeff Norton on 10/31/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
-
 import UIKit
 
 class AddPostTableViewController: UITableViewController, PhotoSelectViewControllerDelegate {
@@ -26,7 +25,7 @@ class AddPostTableViewController: UITableViewController, PhotoSelectViewControll
         
         let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicatorView.hidesWhenStopped = true
-//        activityIndicatorView.frame = self.view.bounds
+        //        activityIndicatorView.frame = self.view.bounds
         activityIndicatorView.center = self.view.center
         activityIndicatorView.startAnimating()
         
@@ -81,7 +80,6 @@ class AddPostTableViewController: UITableViewController, PhotoSelectViewControll
         self.image = image
     }
 }
-
 
 
 

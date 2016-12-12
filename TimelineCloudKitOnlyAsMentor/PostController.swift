@@ -5,7 +5,6 @@
 //  Created by Jeff Norton on 10/31/16.
 //  Copyright © 2016 JeffCryst. All rights reserved.
 //
-
 import UIKit
 import CloudKit
 
@@ -59,8 +58,8 @@ class PostController {
     //==================================================
     
     @discardableResult func addComment(toPost post: Post
-                            , commentText text: String
-                            , completion: @escaping ((Comment) -> Void) = { _ in }) -> Comment {
+        , commentText text: String
+        , completion: @escaping ((Comment) -> Void) = { _ in }) -> Comment {
         
         let comment = Comment(post: post, text: text)
         post.comments.append(comment)
@@ -150,7 +149,7 @@ class PostController {
         }
         
         cloudKitManager.fetchRecordsWithType(type, predicate: predicate, recordFetchedBlock: { (record) in
-        
+            
             switch type {
                 
             case Post.typeKey:
@@ -242,7 +241,7 @@ class PostController {
     }
     
     private func recordsOf(type: String) -> [CloudKitSyncable] {
-    
+        
         switch type {
             
         case "Post":
@@ -338,7 +337,7 @@ class PostController {
     func removeSubscriptionTo(commentsForPost post: Post, completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { (_,_) in}) {
         
         guard let subscriptionID = post.cloudKitRecordID?.recordName else {
-
+            
             
             // TODO: Is success really supposed to be true for this case?
             completion(true, nil)
@@ -395,12 +394,6 @@ extension PostController {
     static let PostsChangedNotification = Notification.Name("PostsChangedNotification")
     static let PostCommentsChangedNotification = Notification.Name("PostCommentsChangedNotification")
 }
-
-
-
-
-
-
 
 
 
