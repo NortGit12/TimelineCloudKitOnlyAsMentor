@@ -170,7 +170,10 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
             , searchTerm.characters.count > 0 {
             
             let posts = PostController.shared.posts
-            let filteredPosts = posts.filter { $0.matches(searchTerm: searchTerm) }.map { $0 as SearchableRecord }
+            let filteredSearchableRecords = posts.filter { $0.matches(searchTerm: searchTerm) }.map { $0 as SearchableRecord }
+            
+            let filteredPosts = filteredSearchableRecords as! [Post] 
+            
             resultsTableViewController.resultsArray = filteredPosts  //matchingPosts
             resultsTableViewController.tableView.reloadData()
         }
@@ -178,3 +181,26 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

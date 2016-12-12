@@ -92,10 +92,6 @@ extension Post: SearchableRecord {
         }
         
         return false
-        
-//            let matchingComments = comments.filter { $0.matches(searchTerm: searchTerm) }
-        
-//        return !matchingComments.isEmpty
     }
 }
 

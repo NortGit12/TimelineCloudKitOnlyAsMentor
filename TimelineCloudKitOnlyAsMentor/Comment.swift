@@ -59,11 +59,6 @@ extension Comment: SearchableRecord {
         
         let result = text.lowercased().contains(searchTerm.lowercased())
         
-        print("\nmatches resutls:")
-        print("\tsearchTerm.lowercased() = \(searchTerm.lowercased())")
-        print("\ttext.lowercased() = \(text.lowercased())")
-        print("\tresult = \(result)")
-        
         return result
     }
 }
