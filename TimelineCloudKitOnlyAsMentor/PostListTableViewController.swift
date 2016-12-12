@@ -174,6 +174,7 @@ class PostListTableViewController: UITableViewController, UISearchResultsUpdatin
             
             let filteredPosts = filteredSearchableRecords as! [Post] 
             
+            resultsTableViewController.sourceController = self
             resultsTableViewController.resultsArray = filteredPosts  //matchingPosts
             resultsTableViewController.tableView.reloadData()
         }
