@@ -113,7 +113,10 @@ extension CKRecord {
     }
 }
 
-
+func ==(lhs: Post, rhs: Post) -> Bool {
+    
+    return (lhs.cloudKitRecordID == rhs.cloudKitRecordID) && (lhs.timestamp == rhs.timestamp)
+}
 
 
 
